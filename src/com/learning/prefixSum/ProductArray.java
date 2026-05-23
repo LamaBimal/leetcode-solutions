@@ -1,75 +1,69 @@
 package com.learning.prefixSum;
 
+/**
+ * Product of Array Except Self
+ *
+ * Given an integer array, return an array where each element is the product
+ * of all elements except itself, without using division.
+ *
+ * Input:  [1, 2, 3, 4]
+ * Output: [24, 12, 8, 6]
+ */
 public class ProductArray {
-    /**
-     *  Product of Array Except Self
-     * **/
 
-    public void method1(int[] array){
-        /**
-         *  Using prefix and suffix
-         * **/
-        int [] prefixProduct= new int[array.length];
-        int [] suffixProduct = new int[array.length];
+    /**
+     * Method 1: Prefix × suffix pass — O(n) time, O(n) space.
+     */
+    public int[] method1(int[] array) {
         int n = array.length;
+        int[] prefixProduct = new int[n];
+        int[] suffixProduct = new int[n];
+        int[] result = new int[n];
 
         prefixProduct[0] = 1;
-        suffixProduct[n-1] = 1;
-        for(int i=1;i<n;i++){
-            prefixProduct[i] = array[i-1]* prefixProduct[i-1];
+        for (int i = 1; i < n; i++) {
+            prefixProduct[i] = array[i - 1] * prefixProduct[i - 1];
         }
 
-        System.out.println("Product of prefix elements ");
-        int count=0;
-        for(int v: prefixProduct){
-            System.out.println("Prefix Product Index"+count+":"+v);
-            count++;
-        }
-        int index=0;
-        for (int j= n-2;j>=0;j--){
-            suffixProduct[j] = array[j+1] * suffixProduct[j+1];
+        suffixProduct[n - 1] = 1;
+        for (int j = n - 2; j >= 0; j--) {
+            suffixProduct[j] = array[j + 1] * suffixProduct[j + 1];
         }
 
-        for(int v: suffixProduct){
-            System.out.println("Index :"+index);
-            System.out.println("suffix product: "+v);
-            index++;
+        for (int i = 0; i < n; i++) {
+            result[i] = prefixProduct[i] * suffixProduct[i];
         }
-
-        for (int i=0;i<n;i++){
-            System.out.println("Product with index "+i+" is as: "+prefixProduct[i]*suffixProduct[i]);
-        }
+        return result;
     }
 
-    public void method2(int[] array){
-        System.out.println(" ** Method2 Called with product array approach **");
-        int product=1;
-        int zeros = 0;
-
-        for(int i=0;i<array.length;i++){
-            if(array[i] != 0){
-                product *= array[i];
-            } else {
-                zeros += 1;
-            }
+    /**
+     * Method 2: Total product divided per element — O(n) time.
+     * Note: does not handle zeros correctly; kept for comparison purposes.
+     */
+    public int[] method2(int[] array) {
+        int product = 1;
+        for (int v : array) {
+            if (v != 0) product *= v;
         }
 
         int[] productArray = new int[array.length];
-        for(int i=0;i<array.length; i++){
-            productArray[i] = product/array[i];
+        for (int i = 0; i < array.length; i++) {
+            productArray[i] = (array[i] != 0) ? product / array[i] : 0;
         }
-
-        for (int i=0;i<productArray.length;i++){
-            System.out.println("Product with index "+i+" is as: "+productArray[i]);
-        }
+        return productArray;
     }
 
-    public static void main(String []args){
-        int[] array= new int[]{5,7,8,9,3};
+    public static void main(String[] args) {
+        int[] array = {5, 7, 8, 9, 3};
+        ProductArray pa = new ProductArray();
 
-        ProductArray productArray = new ProductArray();
-        productArray.method1(array);
-        productArray.method2(array);
+        int[] r1 = pa.method1(array);
+        int[] r2 = pa.method2(array);
 
+        System.out.println("Method1 (prefix×suffix):");
+        for (int i = 0; i < r1.length; i++) System.out.println("  index " + i + ": " + r1[i]);
+
+        System.out.println("Method2 (total product):");
+        for (int i = 0; i < r2.length; i++) System.out.println("  index " + i + ": " + r2[i]);
     }
 }

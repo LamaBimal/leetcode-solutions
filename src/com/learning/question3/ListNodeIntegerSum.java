@@ -12,8 +12,8 @@ public class ListNodeIntegerSum {
         while(val1 != null || val2 != null || carryVal != 0){
             System.out.println("Testing1");
 
-            int x = (val1!= null)?val1.val:0;
-            int y = (val2!= null)?val1.val:0;
+            int x = (val1 != null) ? val1.val : 0;
+            int y = (val2 != null) ? val2.val : 0;
 
             int sum = x+y+carryVal;
 
