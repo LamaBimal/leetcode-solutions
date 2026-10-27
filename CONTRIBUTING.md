@@ -14,7 +14,8 @@
 6. Add JUnit Jupiter tests under the matching `src/test/java` package. Cover a
    representative example, boundaries, failure contracts, and any bug regression.
    Use an independent oracle when testing a complex optimized algorithm.
-7. Update the README solution catalog and affected contracts when behavior changes.
+7. Update the README solution catalog and [input contracts](docs/CONTRACTS.md)
+   when behavior changes. Keep related [walkthroughs](docs/WALKTHROUGHS.md) aligned.
    Describe compatibility changes and their impact in the review description.
 8. Run `.\mvnw.cmd verify` on Windows or `sh ./mvnw verify` on Linux/macOS,
    and inspect the diff before submitting. An installed Maven can run `mvn verify`.
@@ -34,7 +35,8 @@ behavior and failure contracts instead of reproducing private implementation.
 
 Use long intermediates when an int sum can overflow. Check narrowing conversions
 and integer products. Document intentional input bounds. Return computed values
-instead of printing them. Reject invalid input consistently with the README.
+instead of printing them. Reject invalid input consistently with the
+[documented contracts](docs/CONTRACTS.md).
 For floating-point domains with finite invariants, reject NaN and infinities
 explicitly, check finite arithmetic results, and validate before mutating state.
 

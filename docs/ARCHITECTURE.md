@@ -83,7 +83,10 @@ the jar. An installed Maven can run the same lifecycle.
 Tests cover examples, invalid inputs, empty inputs, arithmetic boundaries,
 carry propagation, and selected input-preservation guarantees. Seeded randomized
 tests compare median partitioning and monotonic-stack detection with independent
-sorting and exhaustive-search oracles.
+sorting and exhaustive-search oracles. Sorted pair search is checked against
+exhaustive pair enumeration; trapped-water calculation is checked against direct
+per-position boundary scans. These two-pointer tests also verify input preservation.
+See the [walkthroughs](WALKTHROUGHS.md) for the reasoning behind these algorithms.
 
 Consumer-package tests exercise tree traversal, cycle detection, midpoint search,
 and reversal through public node APIs. Numeric tests cover NaN, infinities,
@@ -100,6 +103,6 @@ CI runs Java 8, 17, and 21. CI status is evidence only after the workflow execut
 a committed workflow alone does not establish a passing remote build.
 
 Changes to package names, parameter or result types, input behavior, and overflow
-behavior must be reflected in the affected README contracts and explained in the
+behavior must be reflected in the [input contracts](CONTRACTS.md) and explained in the
 review description, including compatibility impacts. Add modules or runtime
 dependencies only when a concrete consumer requirement justifies them.

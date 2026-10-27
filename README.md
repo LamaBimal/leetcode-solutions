@@ -1,17 +1,33 @@
 # LeetCode Solutions
 
-A Java algorithm library for learning problem-solving patterns. Solutions are
-organized by pattern, expose reusable methods, and include regression tests.
-The production library uses only the JDK. The catalog contains 24 algorithm
-classes spanning the 15 study patterns, plus 15 design-principle teaching examples
-under `principles` and `solid`.
+[![Java build on main](https://github.com/LamaBimal/leetcode-solutions/actions/workflows/build.yml/badge.svg?branch=main&event=push)](https://github.com/LamaBimal/leetcode-solutions/actions/workflows/build.yml?query=branch%3Amain+event%3Apush)
 
-Project identifier: `leetcode-solutions`. Maven coordinates:
-`com.learning:leetcode-solutions:1.0.0-SNAPSHOT`.
+A Java learning library with **24 algorithm classes across 15 patterns**, reusable
+methods, documented complexity, and regression tests. Production code uses only
+the JDK.
 
-Start with the build below, choose a solution from the catalog, and read its tests
-alongside the implementation. For design rationale and tradeoffs, see the
-[architecture guide](docs/ARCHITECTURE.md).
+Start with three representative solutions:
+
+| Algorithm | What to learn | Explore |
+| --- | --- | --- |
+| Median of two sorted arrays | Binary partitioning and boundary invariants | [Code](src/main/java/com/learning/binarysearch/TwoArraysMedian.java) · [Reasoning](docs/WALKTHROUGHS.md#median-of-two-sorted-arrays) |
+| Sorted pair search | Eliminating impossible candidates with two pointers | [Code](src/main/java/com/learning/twopointers/SumTwoNumber.java) · [Reasoning](docs/WALKTHROUGHS.md#sorted-pair-search) |
+| Trapping rainwater | Finalizing contributions with running boundaries | [Code](src/main/java/com/learning/twopointers/TrappingWater.java) · [Reasoning](docs/WALKTHROUGHS.md#trapping-rainwater) |
+
+From the repository root, run all tests and quality checks with JDK 8 or later:
+
+```powershell
+.\mvnw.cmd verify
+```
+
+Linux/macOS: `sh ./mvnw verify`.
+[Build setup](#requirements-and-build) · [All solutions](#solution-catalog) ·
+[Detailed contracts](docs/CONTRACTS.md) · [Architecture](docs/ARCHITECTURE.md)
+
+The `principles` and `solid` packages add **15 standalone design-principle
+examples** for studying responsibilities, encapsulation, and collaboration.
+They complement the algorithm exercises without introducing dependencies into
+them; their mutable domain objects are teaching examples with local contracts.
 
 ## Contents
 
@@ -28,6 +44,9 @@ alongside the implementation. For design rationale and tradeoffs, see the
 - [License](#license)
 
 ## Requirements and build
+
+Project identifier: `leetcode-solutions`. Maven coordinates:
+`com.learning:leetcode-solutions:1.0.0-SNAPSHOT`.
 
 Clone the repository and enter its directory:
 
@@ -165,49 +184,14 @@ ListNode result = new ListNodeIntegerSum().sumTwoNumbers(first, second);
 
 ## Input and result contracts
 
-### Null, empty, and mutable inputs
+Read the [full contracts](docs/CONTRACTS.md) before reusing a solution. They cover
+null and empty inputs, sortedness, numeric bounds, exceptions, mutation, and
+public node models.
 
-- Reference inputs reject null with `NullPointerException`, except digit-list
-  addition (null represents zero), tree traversals, midpoint search, and cycle
-  detection (null is empty), list reversal (null is empty), and island counting
-  (null returns zero).
-- Empty arrays and strings return zero, false, or an empty result as appropriate.
-  Maximum subarray rejects empty input; median rejects two empty arrays.
-- Most algorithms leave caller inputs unchanged. Island counting, flood fill,
-  and linked-list reversal explicitly modify their inputs in place. Addition
-  allocates new nodes; array products and merged intervals return new arrays.
-
-### Preconditions and numeric behavior
-
-- Sorted-array methods require ascending inputs. List operations other than
-  cycle detection require acyclic inputs.
-  These preconditions are documented rather than scanned on every call.
-- Rotated-array search requires distinct values in a rotated ascending array.
-  Grid methods require rectangular grids. Flood-fill coordinates must identify
-  an existing cell; partial reversal requires valid 1-based bounds.
-- Invalid digits, negative elevations, negative flip budgets, nonbinary windows,
-  and stair counts outside 0..45 throw `IllegalArgumentException`.
-- Sums use wide intermediates where needed. Integer results and required product
-  intermediates throw `ArithmeticException` on overflow instead of wrapping.
-- String methods count UTF-16 code units, matching Java `char` semantics.
-- A product over no other elements is 1, so a singleton product array returns
-  `[1]`. Multiple zeros produce all zeros.
-- Kth-largest search requires `1 <= k <= array.length`.
-
-### Design examples and public node models
-
-Design-principle examples intentionally demonstrate mutable domain objects and
-contrasting approaches. Their contracts are local to each example; they are not
-production persistence or banking implementations. The bank-account example
-requires finite balances and positive finite transaction amounts; deposits that
-would overflow the finite range fail without changing the balance. Thermometer
-values must be finite and at least -273.15 Celsius.
-
-Tree and general-list algorithms expose public static nested node classes with
-public constructors, immutable values, and mutable links. For example, external
-callers can construct `BinaryTreeLevelOrder.TreeNode` and connect its `left` and
-`right` fields. Separate consumer-package tests verify these public APIs. The
-digit-addition node remains `com.learning.linkedlist.ListNode`, enforcing 0..9.
+Most algorithms preserve inputs. Island counting, flood fill, and linked-list
+reversal modify them in place. Sorted-array methods assume ascending inputs;
+string methods operate on UTF-16 code units. Method documentation specifies
+additional preconditions and checked-overflow behavior.
 
 ## Project layout
 
@@ -240,17 +224,28 @@ config/                  Checkstyle and PMD rules enforced by verify
 
 ## Verification snapshot
 
-Local verification on **27 October 2026**, covering the working-tree standards
-updates based on commit `55c30c6`, using Java 8 and Java 17:
+**Remote CI:** checked on 27 October 2026. The latest push build on the default
+branch `main`, at commit `55c30c6`,
+[passed all three Java 8, 17, and 21 jobs](https://github.com/LamaBimal/leetcode-solutions/actions/runs/40534174036).
+The live badge above follows push builds on `main`; it does not verify unpushed
+local changes.
+
+Local verification on **27 October 2026**, covering the working-tree learning
+and baseline-test updates based on commit `a36aa24`, using Java 8 and Java 17:
 
 | Check | Result |
 | --- | --- |
 | Maven verification on Java 8 and Java 17 | Passed on both runtimes |
-| JUnit tests | 196 passed; zero failures, errors, or skipped tests |
+| JUnit tests | 198 passed; zero failures, errors, or skipped tests |
 | Checkstyle | Zero violations across 88 production and test source files |
 | PMD | Zero violations against the configured rules |
 | JaCoCo line coverage | 77.9% |
 | JaCoCo branch coverage | 90.1% |
+
+The tests include 500 seeded comparisons each for median partitioning, 132
+detection, sorted pair search, and trapped-water calculation. The two new
+two-pointer checks also assert input preservation. See the
+[walkthroughs](docs/WALKTHROUGHS.md) for baseline choices and their limitations.
 
 Coverage includes all production classes, teaching examples, and standalone
 demos. These figures are a dated snapshot; regenerate the reports with `verify`
@@ -323,6 +318,10 @@ the maintenance cost.
   correctness policies, and tradeoffs.
 - [Pattern guide](docs/PATTERNS.md): recognition cues and common pitfalls for all
   15 patterns, with prefix-sum, sliding-window, and traversal templates.
+- [Algorithm walkthroughs](docs/WALKTHROUGHS.md): invariants, worked examples,
+  baseline comparisons, and independent tests for three representative algorithms.
+- [Input and result contracts](docs/CONTRACTS.md): detailed preconditions, mutation
+  rules, numeric behavior, and public node models.
 - [Tests](src/test/java/com/learning): worked examples, edge cases, and regression
   checks organized by package.
 
