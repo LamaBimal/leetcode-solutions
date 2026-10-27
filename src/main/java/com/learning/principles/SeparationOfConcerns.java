@@ -35,7 +35,9 @@ public class SeparationOfConcerns {
 
         public double discountedPrice(int id, double rate) {
             Product p = repo.findById(id);
-            if (p == null) throw new IllegalArgumentException("Product not found");
+            if (p == null) {
+                throw new IllegalArgumentException("Product not found");
+            }
             return p.price * (1 - rate);
         }
     }

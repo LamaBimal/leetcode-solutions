@@ -31,8 +31,12 @@ public class CompositionOverInheritance {
 
         public String describe() {
             StringBuilder sb = new StringBuilder(name + " can:");
-            if (flyable  != null) sb.append(" ").append(flyable.fly());
-            if (swimmable != null) sb.append(" ").append(swimmable.swim());
+            if (flyable  != null) {
+                sb.append(" ").append(flyable.fly());
+            }
+            if (swimmable != null) {
+                sb.append(" ").append(swimmable.swim());
+            }
             return sb.toString();
         }
     }

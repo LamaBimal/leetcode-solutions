@@ -90,7 +90,7 @@ and reversal through public node APIs. Numeric tests cover NaN, infinities,
 finite overflow, absolute zero, and rejection without state changes. Order city
 lookup delegates through Customer so specialized customer behavior is respected.
 
-Checkstyle checks whitespace, explicit type imports, and selected structural
+Checkstyle checks whitespace, control-flow braces, explicit type imports, and selected structural
 mistakes. PMD checks focused null, comparison, control-flow, and import rules.
 Both analyze tests as well as main sources and fail on violations. These are
 bounded checks, not comprehensive static verification. The JaCoCo report under
@@ -100,5 +100,6 @@ CI runs Java 8, 17, and 21. CI status is evidence only after the workflow execut
 a committed workflow alone does not establish a passing remote build.
 
 Changes to package names, parameter or result types, input behavior, and overflow
-behavior must be described in the README migration notes. Add modules or runtime
+behavior must be reflected in the affected README contracts and explained in the
+review description, including compatibility impacts. Add modules or runtime
 dependencies only when a concrete consumer requirement justifies them.

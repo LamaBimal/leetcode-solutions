@@ -25,7 +25,9 @@ class LinkedListCycleTest {
         // create cycle: tail -> node at index 1
         LinkedListCycle.ListNode tail = head;
         LinkedListCycle.ListNode cycleEntry = head.next;
-        while (tail.next != null) tail = tail.next;
+        while (tail.next != null) {
+            tail = tail.next;
+        }
         tail.next = cycleEntry;
         assertTrue(solution.hasCycle(head));
     }

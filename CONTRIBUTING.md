@@ -14,13 +14,15 @@
 6. Add JUnit Jupiter tests under the matching `src/test/java` package. Cover a
    representative example, boundaries, failure contracts, and any bug regression.
    Use an independent oracle when testing a complex optimized algorithm.
-7. Update the README solution catalog and migration notes when contracts change.
+7. Update the README solution catalog and affected contracts when behavior changes.
+   Describe compatibility changes and their impact in the review description.
 8. Run `.\mvnw.cmd verify` on Windows or `sh ./mvnw verify` on Linux/macOS,
    and inspect the diff before submitting. An installed Maven can run `mvn verify`.
 
 The verification lifecycle fails on Checkstyle or PMD violations in production
 or test code. Rules are in `config/checkstyle.xml` and `config/pmd.xml`; keep
-changes narrowly justified. The basic style gate does not replace the full
+changes narrowly justified. Braces are enforced for control flow. The basic style
+gate does not replace the full
 formatting and readability standards above.
 
 Open `target/site/jacoco/index.html` after verification to inspect uncovered

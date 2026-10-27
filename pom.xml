@@ -8,6 +8,13 @@
     <version>1.0.0-SNAPSHOT</version>
     <name>LeetCode Solutions</name>
     <description>Java solutions organized by algorithmic pattern, with documented contracts and regression tests.</description>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/license/mit/</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>8</maven.compiler.source>

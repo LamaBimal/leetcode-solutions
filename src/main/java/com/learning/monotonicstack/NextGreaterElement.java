@@ -1,7 +1,8 @@
 package com.learning.monotonicstack;
 
 import java.util.Arrays;
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * Monotonic Stack - Next Greater Element
@@ -25,7 +26,7 @@ public class NextGreaterElement {
         int[] result = new int[nums.length];
         Arrays.fill(result, -1); // default: no greater element found
 
-        Stack<Integer> stack = new Stack<>(); // stores indices
+        Deque<Integer> stack = new ArrayDeque<>(); // stores indices
 
         for (int i = 0; i < nums.length; i++) {
             // While current element is greater than element at stack top,

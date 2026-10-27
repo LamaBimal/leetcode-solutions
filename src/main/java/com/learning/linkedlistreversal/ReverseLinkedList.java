@@ -42,7 +42,9 @@ public class ReverseLinkedList {
         ListNode pre = dummy;
 
         // Move pre to the node just before `left`
-        for (int i = 1; i < left; i++) pre = pre.next;
+        for (int i = 1; i < left; i++) {
+            pre = pre.next;
+        }
 
         ListNode curr = pre.next;
         for (int i = 0; i < right - left; i++) {

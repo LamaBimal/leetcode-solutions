@@ -20,13 +20,17 @@ public class CommandQuerySeparation {
 
         // Command — changes state, returns nothing
         public void remove() {
-            if (data.isEmpty()) throw new java.util.NoSuchElementException("Stack is empty");
+            if (data.isEmpty()) {
+                throw new java.util.NoSuchElementException("Stack is empty");
+            }
             data.pop();
         }
 
         // Query — reads state, no side effects
         public T peek() {
-            if (data.isEmpty()) throw new java.util.NoSuchElementException("Stack is empty");
+            if (data.isEmpty()) {
+                throw new java.util.NoSuchElementException("Stack is empty");
+            }
             return data.peek();
         }
 

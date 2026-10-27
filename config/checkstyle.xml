@@ -14,6 +14,7 @@
         <property name="message" value="Remove trailing whitespace."/>
     </module>
     <module name="TreeWalker">
+        <module name="NeedBraces"/>
         <module name="AvoidStarImport">
             <property name="allowStaticMemberImports" value="true"/>
         </module>

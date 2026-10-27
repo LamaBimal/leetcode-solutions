@@ -37,7 +37,9 @@ public class BinaryTreeTraversal {
     }
 
     private void inorderHelper(TreeNode node, List<Integer> result) {
-        if (node == null) return;
+        if (node == null) {
+            return;
+        }
         inorderHelper(node.left, result);
         result.add(node.val);
         inorderHelper(node.right, result);
@@ -50,7 +52,9 @@ public class BinaryTreeTraversal {
     }
 
     private void preorderHelper(TreeNode node, List<Integer> result) {
-        if (node == null) return;
+        if (node == null) {
+            return;
+        }
         result.add(node.val);
         preorderHelper(node.left, result);
         preorderHelper(node.right, result);
@@ -63,7 +67,9 @@ public class BinaryTreeTraversal {
     }
 
     private void postorderHelper(TreeNode node, List<Integer> result) {
-        if (node == null) return;
+        if (node == null) {
+            return;
+        }
         postorderHelper(node.left, result);
         postorderHelper(node.right, result);
         result.add(node.val);
