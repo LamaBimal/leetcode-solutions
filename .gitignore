@@ -1,4 +1,6 @@
-.gitignore
-.idea
-leetCode_Practice.iml
-out/*
+.idea/
+*.iml
+out/
+target/
+.cache/
+*.class
