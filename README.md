@@ -39,6 +39,46 @@ includes teaching examples and standalone demos; there is no percentage gate.
 Use uncovered branches to choose useful tests rather than treating a test count
 or coverage percentage as proof of correctness.
 
+## Verification snapshot
+
+Local verification on **27 October 2026**, covering the implementation in
+commit `869a1a9`:
+
+| Check | Result |
+| --- | --- |
+| Maven verification on Java 8 and Java 17 | Passed on both runtimes |
+| JUnit tests | 196 passed; zero failures, errors, or skipped tests |
+| Checkstyle | Zero violations across 88 production and test source files |
+| PMD | Zero violations against the configured rules |
+| JaCoCo line coverage | 78.1% |
+| JaCoCo branch coverage | 90.1% |
+
+Coverage includes all production classes, teaching examples, and standalone
+demos. These figures are a dated snapshot; regenerate the reports with `verify`
+after changing code. Java 21 is included in the CI matrix but was not part of
+this local verification. After pushing changes, inspect the repository's
+[Actions page](https://github.com/LamaBimal/leetcode-solutions/actions) for remote
+CI results.
+
+## Engineering improvements
+
+- Standard Maven layout and lowercase pattern packages make solutions easier to
+  locate and import. All 39 upstream source files and 39 upstream test files
+  were preserved during integration, with additional models and regression tests.
+- Public tree and list nodes support callers outside the algorithm packages;
+  consumer-package tests exercise construction, traversal, cycle detection,
+  midpoint search, and in-place reversal.
+- Numeric validation rejects NaN, infinities, and deposits that overflow the
+  finite balance range before changing state. Boundary tests cover absolute zero
+  and rejected updates that preserve the previous value.
+- The Law of Demeter example delegates city lookup through `Customer`, preserving
+  specialized customer behavior without navigating its address from `Order`.
+- Correctness fixes cover zero-step stair counting, the returned digit-list head,
+  products containing zeros, and arithmetic overflow in sums and interval sorting.
+  Independent randomized checks exercise median partitioning and 132 detection.
+- The verification lifecycle enforces the configured style and analysis rules and
+  generates coverage reports through the pinned Maven wrapper.
+
 ## Project layout
 
 ```text
