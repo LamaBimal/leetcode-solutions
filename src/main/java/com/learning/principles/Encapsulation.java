@@ -28,8 +28,8 @@ public class Encapsulation {
         public double getTemperature() { return temperature; }
 
         public void setTemperature(double temperature) {
-            if (temperature < MIN) {
-                throw new IllegalArgumentException("Temperature below absolute zero");
+            if (!Double.isFinite(temperature) || temperature < MIN) {
+                throw new IllegalArgumentException("Temperature must be finite and at least absolute zero");
             }
             this.temperature = temperature;
         }

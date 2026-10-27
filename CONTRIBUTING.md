@@ -18,15 +18,30 @@
 8. Run `.\mvnw.cmd verify` on Windows or `sh ./mvnw verify` on Linux/macOS,
    and inspect the diff before submitting. An installed Maven can run `mvn verify`.
 
+The verification lifecycle fails on Checkstyle or PMD violations in production
+or test code. Rules are in `config/checkstyle.xml` and `config/pmd.xml`; keep
+changes narrowly justified. The basic style gate does not replace the full
+formatting and readability standards above.
+
+Open `target/site/jacoco/index.html` after verification to inspect uncovered
+branches relevant to your change. Coverage is reported across all production
+code, including demos, and has no percentage threshold. Add tests for meaningful
+behavior and failure contracts instead of reproducing private implementation.
+
 ## Numeric and collection contracts
 
 Use long intermediates when an int sum can overflow. Check narrowing conversions
 and integer products. Document intentional input bounds. Return computed values
 instead of printing them. Reject invalid input consistently with the README.
+For floating-point domains with finite invariants, reject NaN and infinities
+explicitly, check finite arithmetic results, and validate before mutating state.
 
 Do not mutate caller-owned arrays or lists unless the method explicitly promises
 an in-place operation. Use interfaces for collection variables and modern JDK
 collections such as `ArrayDeque` in place of the legacy `Stack` class.
+
+Public algorithm parameters and return types must be usable by an external
+package. Add a consumer-package test when introducing or changing a node API.
 
 ## Review expectations
 

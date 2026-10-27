@@ -12,13 +12,18 @@ package com.learning.fastslowpointers;
  */
 public class LinkedListCycle {
 
-    static class ListNode {
-        int val;
-        ListNode next;
-        ListNode(int val) { this.val = val; }
+    /** Public node model with an immutable value and mutable links for construction. */
+    public static final class ListNode {
+        public final int val;
+        public ListNode next;
+
+        public ListNode(int val) {
+            this.val = val;
+        }
     }
 
     // Detect cycle: if fast ever meets slow, there's a cycle
+    @SuppressWarnings("PMD.CompareObjectsWithEquals") // Cycle detection requires node identity, not value equality.
     public boolean hasCycle(ListNode head) {
         ListNode slow = head, fast = head;
         while (fast != null && fast.next != null) {

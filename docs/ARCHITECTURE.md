@@ -22,8 +22,8 @@ flowchart TD
 ```
 
 Each pattern package owns its implementations. There are no cross-pattern runtime
-dependencies. The linked-list package owns the public digit node; upstream tree
-and general-list examples retain separate package-local node models. Console
+dependencies. The linked-list package owns the public digit node; tree and
+general-list algorithms expose public static nested node models. Console
 output belongs to the examples entry point or standalone `main` demos, while
 computation methods only compute and return results.
 
@@ -43,6 +43,10 @@ computation methods only compute and return results.
 | Preserve upstream teaching examples and tests | Keep all newer study material during integration | Design-principle examples remain separate from algorithm contracts |
 | Explicit in-place operations | Preserve the purpose of grid traversal and list reversal | Their caller-owned inputs change; interval merging instead copies its inputs |
 | Standard Maven wrapper | Make builds independent of a system Maven installation | Wrapper downloads Maven 3.9.9 on first use |
+| Preserve nested tree and general-list models | Make APIs usable without breaking nested type names or coupling pattern packages | Values are immutable; callers connect and algorithms modify public links |
+| Reject nonfinite validation-example state | NaN bypasses ordinary comparisons and infinity breaks finite invariants | Invalid operations fail before mutation, including deposit overflow |
+| Focused quality gates | Catch common mistakes while keeping contrasting teaching examples usable | Checkstyle and PMD analyze main and test sources during verify |
+| Report coverage without a percentage gate | Expose gaps without encouraging tests of incidental implementation details | JaCoCo includes all production classes, including demos; review the report alongside behavioral tests |
 
 ## Correctness boundaries
 
@@ -73,12 +77,24 @@ Maven project sets UTF-8 explicitly, including for Unicode teaching comments.
 
 ## Verification and change policy
 
-The Maven wrapper's `verify` lifecycle compiles production code, runs JUnit
-tests, and builds the jar. An installed Maven can run the same lifecycle.
+The Maven wrapper's `verify` lifecycle checks basic style, compiles production
+code, runs JUnit tests, checks selected PMD rules, reports coverage, and builds
+the jar. An installed Maven can run the same lifecycle.
 Tests cover examples, invalid inputs, empty inputs, arithmetic boundaries,
 carry propagation, and selected input-preservation guarantees. Seeded randomized
 tests compare median partitioning and monotonic-stack detection with independent
 sorting and exhaustive-search oracles.
+
+Consumer-package tests exercise tree traversal, cycle detection, midpoint search,
+and reversal through public node APIs. Numeric tests cover NaN, infinities,
+finite overflow, absolute zero, and rejection without state changes. Order city
+lookup delegates through Customer so specialized customer behavior is respected.
+
+Checkstyle checks whitespace, explicit type imports, and selected structural
+mistakes. PMD checks focused null, comparison, control-flow, and import rules.
+Both analyze tests as well as main sources and fail on violations. These are
+bounded checks, not comprehensive static verification. The JaCoCo report under
+`target/site/jacoco` provides line and branch evidence without a blanket threshold.
 
 CI runs Java 8, 17, and 21. CI status is evidence only after the workflow executes;
 a committed workflow alone does not establish a passing remote build.

@@ -21,6 +21,8 @@ public class LawOfDemeter {
         private final Address address;
         public Customer(Address address) { this.address = address; }
         public Address getAddress() { return address; }
+
+        public String getCity() { return address.getCity(); }
     }
 
     // BAD: caller must know about Customer → Address → city chain
@@ -38,7 +40,7 @@ public class LawOfDemeter {
 
         // Delegate — caller doesn't need to know about Address at all
         public String getCity() {
-            return customer.getAddress().getCity();
+            return customer.getCity();
         }
     }
 }

@@ -14,24 +14,25 @@ public class FailFast {
     public static class BankAccount {
         private double balance;
 
+        /** Creates a teaching account with a finite, nonnegative balance. */
         public BankAccount(double initialBalance) {
-            if (initialBalance < 0) {
-                throw new IllegalArgumentException("Initial balance cannot be negative");
+            if (!Double.isFinite(initialBalance) || initialBalance < 0) {
+                throw new IllegalArgumentException("Initial balance must be finite and nonnegative");
             }
             this.balance = initialBalance;
         }
 
         public void deposit(double amount) {
-            if (amount <= 0) {
-                throw new IllegalArgumentException("Deposit amount must be positive");
+            validateAmount(amount);
+            double updatedBalance = balance + amount;
+            if (!Double.isFinite(updatedBalance)) {
+                throw new IllegalArgumentException("Deposit would exceed the finite balance range");
             }
-            balance += amount;
+            balance = updatedBalance;
         }
 
         public void withdraw(double amount) {
-            if (amount <= 0) {
-                throw new IllegalArgumentException("Withdrawal amount must be positive");
-            }
+            validateAmount(amount);
             if (amount > balance) {
                 throw new IllegalStateException("Insufficient funds");
             }
@@ -39,5 +40,11 @@ public class FailFast {
         }
 
         public double getBalance() { return balance; }
+
+        private void validateAmount(double amount) {
+            if (!Double.isFinite(amount) || amount <= 0) {
+                throw new IllegalArgumentException("Amount must be finite and positive");
+            }
+        }
     }
 }

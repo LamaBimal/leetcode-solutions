@@ -6,6 +6,17 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LawOfDemeterTest {
 
     @Test
+    void orderRespectsTheCustomersCityAbstraction() {
+        LawOfDemeter.Customer customer = new LawOfDemeter.Customer(new LawOfDemeter.Address("Paris")) {
+            @Override
+            public String getCity() {
+                return "Berlin";
+            }
+        };
+        assertEquals("Berlin", new LawOfDemeter.Order(customer).getCity());
+    }
+
+    @Test
     void orderExposesCity() {
         LawOfDemeter.Address address   = new LawOfDemeter.Address("Berlin");
         LawOfDemeter.Customer customer = new LawOfDemeter.Customer(address);

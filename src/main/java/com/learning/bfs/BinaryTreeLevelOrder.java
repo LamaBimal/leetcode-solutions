@@ -22,10 +22,15 @@ import java.util.Queue;
  */
 public class BinaryTreeLevelOrder {
 
-    static class TreeNode {
-        int val;
-        TreeNode left, right;
-        TreeNode(int val) { this.val = val; }
+    /** Public node model with an immutable value and mutable links for construction. */
+    public static final class TreeNode {
+        public final int val;
+        public TreeNode left;
+        public TreeNode right;
+
+        public TreeNode(int val) {
+            this.val = val;
+        }
     }
 
     public List<List<Integer>> levelOrder(TreeNode root) {

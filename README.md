@@ -28,6 +28,17 @@ Open `pom.xml` as a Maven project in IntelliJ IDEA. Maven defines the source roo
 regenerate any existing IDE module configuration after migrating from the old layout.
 CI runs the same verification lifecycle on Java 8, 17, and 21.
 
+`verify` also enforces basic Java style with Checkstyle and checks selected
+error-prone coding patterns with PMD. Both include production and test sources.
+The rules live in `config/`; violations fail the build. These focused checks
+complement code review rather than asserting complete style or defect coverage.
+
+JaCoCo generates line and branch coverage at `target/site/jacoco/index.html`
+and machine-readable coverage at `target/site/jacoco/jacoco.xml`. The report
+includes teaching examples and standalone demos; there is no percentage gate.
+Use uncovered branches to choose useful tests rather than treating a test count
+or coverage percentage as proof of correctness.
+
 ## Project layout
 
 ```text
@@ -53,6 +64,7 @@ src/main/java/com/learning/
     twopointers/         Sorted pair search and trapped rainwater
 src/test/java/           JUnit Jupiter tests, grouped by pattern
 docs/                    Design decisions and pattern reference
+config/                  Checkstyle and PMD rules enforced by verify
 .github/workflows/       Build verification
 ```
 
@@ -114,14 +126,16 @@ ListNode result = new ListNodeIntegerSum().sumTwoNumbers(first, second);
 ## Input and result contracts
 
 - Reference inputs reject null with `NullPointerException`, except digit-list
-  addition (null represents zero), tree traversals and cycle detection (null is
-  empty), list reversal (null is empty), and island counting (null returns zero).
+  addition (null represents zero), tree traversals, midpoint search, and cycle
+  detection (null is empty), list reversal (null is empty), and island counting
+  (null returns zero).
 - Empty arrays and strings return zero, false, or an empty result as appropriate.
   Maximum subarray rejects empty input; median rejects two empty arrays.
 - Most algorithms leave caller inputs unchanged. Island counting, flood fill,
   and linked-list reversal explicitly modify their inputs in place. Addition
   allocates new nodes; array products and merged intervals return new arrays.
-- Sorted-array methods require ascending inputs. Linked lists must be acyclic.
+- Sorted-array methods require ascending inputs. List operations other than
+  cycle detection require acyclic inputs.
   These preconditions are documented rather than scanned on every call.
 - Rotated-array search requires distinct values in a rotated ascending array.
   Grid methods require rectangular grids. Flood-fill coordinates must identify
@@ -137,9 +151,16 @@ ListNode result = new ListNodeIntegerSum().sumTwoNumbers(first, second);
 
 Design-principle examples intentionally demonstrate mutable domain objects and
 contrasting approaches. Their contracts are local to each example; they are not
-production persistence or banking implementations. Tree and non-digit list
-examples currently use package-local node models; their tests live in the same
-package. Digit addition exposes a public node model.
+production persistence or banking implementations. The bank-account example
+requires finite balances and positive finite transaction amounts; deposits that
+would overflow the finite range fail without changing the balance. Thermometer
+values must be finite and at least -273.15 Celsius.
+
+Tree and general-list algorithms expose public static nested node classes with
+public constructors, immutable values, and mutable links. For example, external
+callers can construct `BinaryTreeLevelOrder.TreeNode` and connect its `left` and
+`right` fields. Separate consumer-package tests verify these public APIs. The
+digit-addition node remains `com.learning.linkedlist.ListNode`, enforcing 0..9.
 
 ## Migration from the original layout
 
@@ -165,6 +186,11 @@ that now return an `int[]`; use `productExceptSelf` for new code. Recompile
 callers after this change. `ListNode` is now public with a validated, final digit
 and a mutable next link. `Pattern132.find132pattern` remains as a compatibility
 entry point for the optimized detector. Interval merging now copies caller input.
+
+Previously package-private tree and general-list node types are now public;
+their class names remain unchanged, and their `val` fields are now final.
+Code that assigned directly to a node value must construct a replacement node.
+Nonfinite inputs to the validation examples now throw `IllegalArgumentException`.
 
 See [architecture](docs/ARCHITECTURE.md), [pattern guide](docs/PATTERNS.md),
 and [contribution standards](CONTRIBUTING.md).

@@ -13,10 +13,14 @@ package com.learning.linkedlistreversal;
  */
 public class ReverseLinkedList {
 
-    static class ListNode {
-        int val;
-        ListNode next;
-        ListNode(int val) { this.val = val; }
+    /** Public node model with an immutable value and mutable links for construction. */
+    public static final class ListNode {
+        public final int val;
+        public ListNode next;
+
+        public ListNode(int val) {
+            this.val = val;
+        }
     }
 
     // Reverse the entire list by rewiring .next pointers in-place
