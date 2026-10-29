@@ -6,6 +6,11 @@ A Java learning library with **24 algorithm classes across 15 patterns**, reusab
 methods, documented complexity, and regression tests. Production code uses only
 the JDK.
 
+**Learn interactively:** visit [Pattern Lab](https://lamabimal.github.io/leetcode-solutions/)
+or open the [offline HTML](docs/learning-lab.html) for
+editable algorithm simulations, SOLID comparisons, design-pattern scenarios,
+and practice questions. [How to open it](#interactive-learning-guide).
+
 Start with three representative solutions:
 
 | Algorithm | What to learn | Explore |
@@ -31,6 +36,7 @@ them; their mutable domain objects are teaching examples with local contracts.
 
 ## Contents
 
+- [Interactive learning guide](#interactive-learning-guide)
 - [Requirements and build](#requirements-and-build)
 - [Learning path](#learning-path)
 - [Solution catalog](#solution-catalog)
@@ -42,6 +48,52 @@ them; their mutable domain objects are teaching examples with local contracts.
 - [Future Extensions](#future-extensions)
 - [Contributing and further reading](#contributing-and-further-reading)
 - [License](#license)
+
+## Interactive learning guide
+
+[Open Pattern Lab online](https://lamabimal.github.io/leetcode-solutions/), or use
+the offline version below. The hosted version links documentation and Java source
+back to GitHub; the local version keeps relative repository links.
+
+Download or clone the repository, then open `docs/learning-lab.html` in a modern
+browser. It is a self-contained, offline file: no server, installation, or external
+scripts are required. GitHub's file view shows its source; open the downloaded
+file to use the interactive controls.
+
+- **15 algorithm patterns:** recognition cues, question variants, invariants,
+  complexity, common mistakes, and links to the Java implementations.
+- **Editable simulations:** validate an input, build its trace, and use Play,
+  Pause, Next, Back, or Reset to inspect the changing state. Inputs are bounded
+  to keep the demonstrations readable and responsive.
+- **SOLID:** all five principles with before/after Java fragments, runnable
+  browser scenarios, and tradeoffs.
+- **Design patterns:** Strategy, Factory Method, Adapter, Decorator, Observer,
+  and Command, with examples of when to use them and when to avoid extra abstraction.
+- **Practice:** 12 decision questions with explanatory feedback.
+
+The browser models are teaching implementations, not an execution environment
+for the Java code. Additional design-pattern scenarios do not imply matching
+production classes exist in this repository. Java contracts remain documented in
+[the contract reference](docs/CONTRACTS.md).
+
+To verify the teaching models after editing the HTML, run this optional check
+with Node.js installed (Node.js is not needed to open the guide or build Java):
+
+```sh
+node scripts/test-learning-lab.cjs
+```
+
+### GitHub Pages deployment
+
+The `Publish Pattern Lab` workflow tests the teaching models, packages only the
+HTML guide, and deploys it to GitHub Pages when its source, scripts, or workflow
+change on `main`. Pull requests run validation without deploying. The workflow
+can also be run manually from Actions.
+
+In repository **Settings → Pages**, the publishing source is **GitHub Actions**.
+To inspect the deployment package locally, run `node scripts/build-learning-site.cjs`;
+the generated entry point is `.cache/pages-site/index.html`. No dependencies need
+to be installed for either Node.js script.
 
 ## Requirements and build
 

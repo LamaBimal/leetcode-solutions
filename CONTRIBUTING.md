@@ -52,3 +52,19 @@ package. Add a consumer-package test when introducing or changing a node API.
 A change should have a clear problem, the resulting behavior, and verification
 evidence. Explain any package migration, complexity change, input mutation, numeric
 limit, or new dependency. Keep examples runnable and production code dependency-free.
+
+## Interactive learning guide
+
+Keep `docs/learning-lab.html` self-contained and usable offline. Its bounded
+JavaScript models illustrate the Java algorithms; label differing limits and
+additional design-pattern teaching examples explicitly. Preserve accessible
+labels, keyboard controls, input validation, and mobile layouts.
+
+When changing these models, run `node scripts/test-learning-lab.cjs` using Node.js.
+This optional check covers default results, edge cases, independent randomized
+oracles, and design scenarios. Also open the HTML in a browser and verify lesson
+switching, invalid-input recovery, playback, before/after scenarios, and quizzes.
+This check is separate from Maven verification. The `Publish Pattern Lab` workflow
+runs it for relevant pull requests and before deploying changes from `main`.
+Run `node scripts/build-learning-site.cjs` to check the hosted package and its
+documentation links after changing the HTML.
