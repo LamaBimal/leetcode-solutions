@@ -8,11 +8,11 @@ function readProgress(){try{const value=JSON.parse(localStorage.getItem('pattern
 function lessonChanged(){
  const key=lessonKey();if(!restoringRoute){const route='#lesson='+encodeURIComponent(key);if(location.hash!==route)history.pushState(null,'',route);}
  const done=readProgress()[key];$('complete-lesson').textContent=done?'Completed ✓ · mark incomplete':'Mark lesson complete';
- $('lesson-route').textContent=mode==='algorithms'?'Practice · 10–15 min · Prerequisites: Big O, arrays, loops.':mode==='quiz'?'Apply · 10 min · Prerequisites: algorithm and design lessons.':'Intermediate · 10 min · Prerequisites: object contracts and composition.';
+ $('lesson-route').textContent=mode==='complexity'?'Foundations → count operations → simplify → analyze memory → compare designs.':mode==='algorithms'?'Practice · 10–15 min · Prerequisites: Big O, arrays, loops.':mode==='quiz'?'Apply · 10 min · Prerequisites: algorithm and design lessons.':'Intermediate · 10 min · Prerequisites: object contracts and composition.';
  $('share-status').textContent='';renderPresets();
 }
-function restoreRoute(){restoringRoute=true;try{const raw=location.hash.startsWith('#lesson=')?decodeURIComponent(location.hash.slice(8)):'algorithms/pair';const [group,id]=raw.split('/');if(!['algorithms','solid','design','quiz'].includes(group))return;setMode(group);const item=(group==='algorithms'?lessons:concepts).find(c=>c.id===id&&(group==='algorithms'||c.group===group));if(item){selected=item;renderMenu();loadLesson();}lessonChanged();}catch{setMode('algorithms');}finally{restoringRoute=false;}}
-window.addEventListener('popstate',restoreRoute);window.addEventListener('hashchange',()=>{if(location.hash.startsWith('#lesson='))restoreRoute();});
+function restoreRoute(){restoringRoute=true;try{const raw=location.hash==='#complexity'?'complexity/basics':location.hash.startsWith('#lesson=')?decodeURIComponent(location.hash.slice(8)):'algorithms/pair';const [group,id]=raw.split('/');if(!['algorithms','solid','design','quiz','complexity'].includes(group))return;setMode(group);const item=(group==='algorithms'?lessons:group==='complexity'?complexityLessons:concepts).find(c=>c.id===id&&(['algorithms','complexity'].includes(group)||c.group===group));if(item){selected=item;renderMenu();loadLesson();}lessonChanged();}catch{setMode('algorithms');}finally{restoringRoute=false;}}
+window.addEventListener('popstate',restoreRoute);window.addEventListener('hashchange',()=>{if(location.hash.startsWith('#lesson=')||location.hash==='#complexity')restoreRoute();});
 function renderPresets(){const root=$('presets');root.replaceChildren();if(mode!=='algorithms')return;const id=selected.id;const examples=[['Default',selected.input,selected.param]];
  if(!['dfs','matrix','heap'].includes(id))examples.push(['Empty / zero',id==='window'?'':id==='dp'?0:[],id==='cycle'?-1:selected.param]);
  if(['prefix','pair','stack','heap'].includes(id))examples.push(['Duplicates',[2,2,2],id==='heap'?2:4]);
@@ -39,4 +39,4 @@ const complete=$('complete-lesson');complete.onclick=()=>{const progress=readPro
 $('share-lesson').onclick=()=>{$('share-status').textContent=location.href;};
 restoreRoute();
 // Dynamic lesson content changes page height before the browser's initial anchor.
-window.addEventListener('load',()=>{const target=location.hash==='#complexity'?$('complexity'):location.hash.startsWith('#lesson=')?$('title'):null;if(target)target.scrollIntoView({block:'start'});});
+window.addEventListener('load',()=>{const target=location.hash==='#complexity'?$('title'):location.hash.startsWith('#lesson=')?$('title'):null;if(target)target.scrollIntoView({block:'start'});});

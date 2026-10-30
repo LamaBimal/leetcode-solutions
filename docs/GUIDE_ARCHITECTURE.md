@@ -24,3 +24,7 @@ Big O counts are illustrative operations, not elapsed-time benchmarks. Trace sto
 ## Manual browser regression
 
 Check deep links and browser Back/Forward, keyboard controls, storage denial, invalid inputs, preset changes, quiz answer locking, graph frontier labels, and printing. At narrow widths, permit scrolling within tables/diagrams while preventing document-wide overflow. Check screen-reader announcements without autoplay flooding them.
+
+## Dedicated complexity curriculum
+
+`complexity-lessons.js` holds 14 chapters and pure work-count models. `complexity-ui.js` renders calculation steps and knowledge checks. The `complexity` navigation mode owns these chapters; the module is hidden in every other learning area. Canonical routes use `#lesson=complexity%2F<chapter>`, while the older `#complexity` link opens the basics chapter. Progress is tracked per chapter. The existing Node regression script validates chapter links and counts independently of browser presentation.

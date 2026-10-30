@@ -74,3 +74,30 @@ check(runScenario('command',false,10).result,10);
 check(runScenario('strategy',true,10).result,8);
 assert.throws(()=>runScenario('strategy',true,-1));
 console.log(`Learning lab: ${checks} assertions passed; 15 algorithm defaults, edge cases, independent oracles, and 11 design lessons verified.`);
+
+// Check the dedicated complexity curriculum against independent count formulas.
+const complexityContext=vm.createContext({});
+vm.runInContext(fs.readFileSync(path.join(__dirname,'../docs/assets/complexity-lessons.js'),'utf8')+';globalThis.curriculum={complexityLessons,complexityWork};',complexityContext);
+const {complexityLessons,complexityWork}=complexityContext.curriculum;
+assert.equal(complexityLessons.length,14);
+assert.equal(new Set(complexityLessons.map(l=>l.id)).size,14);
+for(const lesson of complexityLessons){
+ assert(lesson.steps.length>=5 && lesson.question[1][lesson.question[2]]);
+ if(lesson.source)assert(fs.existsSync(path.join(__dirname,'../src/main/java/com/learning',lesson.source+'.java')));
+ if(lesson.pattern)assert(lessons.some(l=>l.id===lesson.pattern));
+ for(const n of [1,2,8,16,20])assert(Number.isFinite(complexityWork(lesson.kind,n,1).count));
+}
+for(let n=1;n<=20;n++){
+ let pairVisits=0;for(let i=0;i<n;i++)for(let j=i+1;j<n;j++)pairVisits++;
+ assert.equal(complexityWork('triangular',n,1).count,pairVisits);
+ assert.equal(complexityWork('pairs',n,1).count,n*n);
+ assert.equal(complexityWork('pointers',n,1).count,n-1);
+ assert.equal(complexityWork('halving',n,1).count,Math.floor(Math.log2(n))+1);
+ assert.equal(complexityWork('dp',n,1).count,n-1);
+}
+assert.equal(complexityWork('heap',8,3).count,16);
+assert.equal(complexityWork('subsets',4,1).count,16);
+assert.throws(()=>complexityWork('scan',0,1));
+assert.throws(()=>complexityWork('heap',4,5));
+for(const name of ['complexity-lessons.js','complexity-ui.js','lab-enhancements.js'])new vm.Script(fs.readFileSync(path.join(__dirname,'../docs/assets',name),'utf8'));
+console.log('Dedicated Big O module: 14 chapters, repository links, count derivations, and input boundaries verified.');
