@@ -36,3 +36,7 @@ function complexityWork(kind,n,k=1) {
  default:throw new Error('Unknown complexity model.');
  }
 }
+
+// Stable varied answer order preserves the original semantic answer identity.
+function complexityChoices(lesson){const offset=complexityLessons.indexOf(lesson)%lesson.question[1].length;const choices=lesson.question[1].map((text,index)=>({text,correct:index===lesson.question[2]}));return choices.slice(offset).concat(choices.slice(0,offset));}
+function boundedHeapSize(n,k){return Math.max(1,Math.min(n,k));}

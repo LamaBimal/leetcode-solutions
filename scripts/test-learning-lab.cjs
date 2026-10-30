@@ -101,3 +101,16 @@ assert.throws(()=>complexityWork('scan',0,1));
 assert.throws(()=>complexityWork('heap',4,5));
 for(const name of ['complexity-lessons.js','complexity-ui.js','lab-enhancements.js'])new vm.Script(fs.readFileSync(path.join(__dirname,'../docs/assets',name),'utf8'));
 console.log('Dedicated Big O module: 14 chapters, repository links, count derivations, and input boundaries verified.');
+
+// Terminal highlights must agree with the result, including empty inputs.
+for(const [id,input,param,line,result] of [
+ ['pair',[1,2,4,7,11],9,4,true],['pair',[1,2],9,7,false],['pair',[],0,7,false],
+ ['binary',[4,5,6,7,0,1,2],0,3,4],['binary',[1,2,3],9,6,-1],['binary',[],0,6,-1]
+]){const final=trace(id,input,param).at(-1);assert.equal(final.outlineLine,line);assert.equal(final.state.result,result);}
+vm.runInContext('globalThis.review={complexityChoices,boundedHeapSize};',complexityContext);
+const choices=complexityLessons.map(lesson=>complexityContext.review.complexityChoices(lesson));
+assert(new Set(choices.map(list=>list.findIndex(c=>c.correct))).size===3);
+choices.forEach((list,i)=>{assert.equal(list.filter(c=>c.correct).length,1);assert.equal(list.find(c=>c.correct).text,complexityLessons[i].question[1][complexityLessons[i].question[2]]);});
+assert.equal(complexityContext.review.boundedHeapSize(1,3),1);
+assert.equal(complexityContext.review.boundedHeapSize(8,3),3);
+console.log('Review regressions: terminal highlights, answer identity/order, and heap constraints passed.');

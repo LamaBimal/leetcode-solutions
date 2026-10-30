@@ -6,7 +6,7 @@ const score=document.createElement('p');score.id='quizScore';score.setAttribute(
 function lessonKey(){return mode==='quiz'?'quiz':`${mode}/${selected.id}`;}
 function readProgress(){try{const value=JSON.parse(localStorage.getItem('pattern-lab-progress-v1')||'{}');return value&&typeof value==='object'&&!Array.isArray(value)?value:{};}catch{return {};}}
 function lessonChanged(){
- const key=lessonKey();if(!restoringRoute){const route='#lesson='+encodeURIComponent(key);if(location.hash!==route)history.pushState(null,'',route);}
+ const key=lessonKey();if(selected){lastLessons[mode]=selected.id;try{localStorage.setItem('pattern-lab-last-'+mode,selected.id);}catch{}}if(mode==='complexity')updateCourseProgress();if(!restoringRoute){const route='#lesson='+encodeURIComponent(key);if(location.hash!==route)history.pushState(null,'',route);}
  const done=readProgress()[key];$('complete-lesson').textContent=done?'Completed ✓ · mark incomplete':'Mark lesson complete';
  $('lesson-route').textContent=mode==='complexity'?'Foundations → count operations → simplify → analyze memory → compare designs.':mode==='algorithms'?'Practice · 10–15 min · Prerequisites: Big O, arrays, loops.':mode==='quiz'?'Apply · 10 min · Prerequisites: algorithm and design lessons.':'Intermediate · 10 min · Prerequisites: object contracts and composition.';
  $('share-status').textContent='';renderPresets();
