@@ -38,3 +38,5 @@ function enrichFrame(f){
 const complete=$('complete-lesson');complete.onclick=()=>{const progress=readProgress(),key=lessonKey();progress[key]=!progress[key];try{localStorage.setItem('pattern-lab-progress-v1',JSON.stringify(progress));}catch{$('share-status').textContent='Progress storage is unavailable in this browser.';}restoringRoute=true;lessonChanged();restoringRoute=false;};
 $('share-lesson').onclick=()=>{$('share-status').textContent=location.href;};
 restoreRoute();
+// Dynamic lesson content changes page height before the browser's initial anchor.
+window.addEventListener('load',()=>{const target=location.hash==='#complexity'?$('complexity'):location.hash.startsWith('#lesson=')?$('title'):null;if(target)target.scrollIntoView({block:'start'});});
