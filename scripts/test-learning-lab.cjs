@@ -5,7 +5,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 const assert = require('node:assert/strict');
 const html = fs.readFileSync(path.join(__dirname, '../docs/learning-lab.html'), 'utf8');
-const script = html.match(/<script>([\s\S]*?)<\/script>/)[1];
+const script = ['lab-models.js','lab-ui.js'].map(name => fs.readFileSync(path.join(__dirname, '../docs/assets',name),'utf8')).join('\n');
 new vm.Script(script); // Parse the entire application, including UI wiring.
 const models = script.split('// End of pure teaching models.')[0];
 const context = vm.createContext({});
@@ -34,7 +34,7 @@ check(result('dp',0),1);
 check(result('matrix',[[2,2],[2,1]],2),[[2,2],[2,1]]);
 check(result('cycle',[9],0),true);
 check(result('cycle',[9],-1),false);
-for (const [id,input,param] of [['pair',[2,1],3],['binary',[2,1,3],1],['binary',[1,1],1],['heap',[],1],['heap',[1],2],['cycle',[1],2],['interval',[[2,1]]],['tree',[null,1]],['dfs',[[1],[1,0]]],['matrix',[],2],['backtrack',[1,1]],['dp',25],['window','🙂'],['prefix',[1.5],2]]) {
+for (const [id,input,param] of [['pair',[2,1],3],['binary',[2,1,3],1],['binary',[1,1],1],['heap',[],1],['heap',[1],2],['cycle',[1],2],['interval',[[2,1]]],['tree',[null,1]],['dfs',[[1],[1,0]]],['matrix',[],2],['backtrack',[1,1]],['dp',25],['window','ðŸ™‚'],['prefix',[1.5],2]]) {
  assert.throws(() => trace(id,input,param)); checks++;
 }
 // Independent small exhaustive oracles; repeatable pseudo-random inputs.

@@ -381,3 +381,7 @@ the maintenance cost.
 
 This project is licensed under the [MIT License](LICENSE). Third-party files,
 including the Maven wrapper, retain their own license notices.
+
+## Interactive guide foundations
+
+The guide now includes Big O time/space foundations, counted growth examples, and a knowledge check. Read [the text companion](docs/BIG_O.md). Browser models and controls live in `docs/assets/`; keep that folder beside the HTML for offline use.

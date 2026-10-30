@@ -6,6 +6,8 @@ const assert = require('node:assert/strict');
 const root = path.resolve(__dirname, '..');
 const repository = 'https://github.com/LamaBimal/leetcode-solutions/blob/main/';
 let html = fs.readFileSync(path.join(root, 'docs/learning-lab.html'), 'utf8');
+// Inline local modules for a portable, offline distribution.
+html = html.replace(/<script src="(assets\/[^"]+)"><\/script>/g, (_, file) => '<script>' + fs.readFileSync(path.join(root, 'docs', file), 'utf8') + '</script>');
 // Convert Java link prefixes before validating static hrefs: SOLID links use
 // template interpolation, and algorithm links are assigned at runtime.
 html = html.replaceAll('../src/main/java/com/learning/', repository + 'src/main/java/com/learning/');

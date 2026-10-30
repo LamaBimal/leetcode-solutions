@@ -5,11 +5,17 @@ on:
         branches: [main]
         paths:
             - 'docs/learning-lab.html'
+            - 'docs/assets/**'
+            - 'docs/BIG_O.md'
+            - 'src/main/java/**'
             - 'scripts/*learning*.cjs'
             - '.github/workflows/pages.yml'
     pull_request:
         paths:
             - 'docs/learning-lab.html'
+            - 'docs/assets/**'
+            - 'docs/BIG_O.md'
+            - 'src/main/java/**'
             - 'scripts/*learning*.cjs'
             - '.github/workflows/pages.yml'
     workflow_dispatch:
@@ -30,6 +36,12 @@ jobs:
             - uses: actions/setup-node@v4
               with:
                   node-version: '24'
+            - uses: actions/setup-java@v4
+              with:
+                  distribution: temurin
+                  java-version: '17'
+            - name: Verify Java and browser parity
+              run: node scripts/test-learning-parity.cjs
             - name: Verify teaching models
               run: node scripts/test-learning-lab.cjs
             - name: Package the static site
